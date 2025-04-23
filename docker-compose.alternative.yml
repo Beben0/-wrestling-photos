@@ -8,9 +8,13 @@ services:
     command: >
       sh -c "
         apk add --no-cache git &&
-        git clone https://github.com/Beben0/-wrestling-photos.git /tmp/app &&
-        cp -r /tmp/app/* /app/ &&
-        rm -rf /tmp/app &&
+        git clone https://github.com/Beben0/-wrestling-photos.git /tmp/repo &&
+        ls -la /tmp/repo &&
+        mkdir -p /app/src &&
+        cp -rv /tmp/repo/* /app/ &&
+        cp -rv /tmp/repo/.env /app/ &&
+        ls -la /app &&
+        ls -la /app/src &&
         npm install --production &&
         node src/index.js
       "
