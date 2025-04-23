@@ -2,9 +2,19 @@ version: "3"
 
 services:
   wrestling-photos:
-    build: .
+    image: node:18-alpine
     restart: unless-stopped
+    working_dir: /app
+    command: >
+      sh -c "
+        rm -rf /app/* &&
+        npm install --omit=dev &&
+        mkdir -p /app/public/images &&
+        node /app/src/index.js
+      "
     volumes:
+      - ./:/app
+      - /app/node_modules
       - wrestling_photos_data:/app/public
     ports:
       - "3000:3000"
@@ -19,7 +29,6 @@ services:
       - "traefik.http.routers.wrestling.entrypoints=websecure"
       - "traefik.http.routers.wrestling.tls=true"
       - "traefik.http.services.wrestling.loadbalancer.server.port=3000"
-      - "traefik.docker.network=traefik-public"
 
 volumes:
   wrestling_photos_data:
