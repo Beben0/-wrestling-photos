@@ -1,21 +1,19 @@
 # Déploiement avec image Linux (amd64)
 
-J'ai créé une image spécifique pour les serveurs Linux standards (architecture amd64/x86_64).
+J'ai créé une image spécifique pour les serveurs Linux standards (architecture amd64/x86_64) et l'ai publiée sur GitHub Container Registry.
 
 ## Instructions pour Portainer
 
-1. Télécharge le fichier `wrestling-photos-linux.tar.gz`
-2. Dans Portainer, va dans **Images** et clique sur **Import**
-3. Sélectionne le fichier et clique sur **Upload**
-4. Attends la fin du téléchargement
-5. Crée un nouveau stack avec le contenu suivant:
+### Option 1: Utiliser directement l'image distante (Recommandé)
+
+Crée un nouveau stack avec le contenu suivant:
 
 ```yaml
 version: "3"
 
 services:
   wrestling-photos:
-    image: wrestling-photos:linux-amd64
+    image: ghcr.io/beben0/wrestling-photos:linux-amd64
     restart: unless-stopped
     volumes:
       - wrestling_photos_data:/app/public
@@ -40,6 +38,14 @@ networks:
   traefik-public:
     external: true
 ```
+
+### Option 2: Utiliser le fichier .tar.gz
+
+1. Télécharge le fichier `wrestling-photos-linux.tar.gz`
+2. Dans Portainer, va dans **Images** et clique sur **Import**
+3. Sélectionne le fichier et clique sur **Upload**
+4. Attends la fin du téléchargement
+5. Crée un stack avec la même configuration que l'option 1, mais utilise `wrestling-photos:linux-amd64` comme nom d'image
 
 ## Vérification architecture du serveur
 
