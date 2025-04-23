@@ -4,9 +4,28 @@ J'ai créé une image spécifique pour les serveurs Linux standards (architectur
 
 ## Instructions pour Portainer
 
-### Option 1: Utiliser directement l'image distante (Recommandé)
+### Option 1: Utiliser directement l'image distante
 
-Crée un nouveau stack avec le contenu suivant:
+#### Authentification GitHub Container Registry
+
+GitHub Container Registry exige une authentification. Voici comment procéder:
+
+1. Crée un token d'accès personnel sur GitHub:
+
+   - Va sur github.com → Settings → Developer Settings → Personal Access Tokens → Fine-grained tokens
+   - Crée un nouveau token avec les permissions "read" pour "Packages"
+   - Copie le token généré
+
+2. Dans Portainer, va dans **Registries**:
+
+   - Clique sur **Add registry**
+   - Choisis **Custom registry**
+   - URL: `ghcr.io`
+   - Nom d'utilisateur: ton nom d'utilisateur GitHub
+   - Mot de passe: le token d'accès créé précédemment
+   - Clique sur **Add registry**
+
+3. Crée un nouveau stack avec le contenu suivant:
 
 ```yaml
 version: "3"
@@ -39,9 +58,11 @@ networks:
     external: true
 ```
 
-### Option 2: Utiliser le fichier .tar.gz
+### Option 2: Utiliser le fichier .tar.gz (Recommandé)
 
-1. Télécharge le fichier `wrestling-photos-linux.tar.gz`
+Cette option évite les problèmes d'authentification:
+
+1. Télécharge le fichier `wrestling-photos-linux.tar.gz` que je t'ai fourni
 2. Dans Portainer, va dans **Images** et clique sur **Import**
 3. Sélectionne le fichier et clique sur **Upload**
 4. Attends la fin du téléchargement
