@@ -4,18 +4,16 @@ services:
   wrestling-photos:
     image: node:18-alpine
     restart: unless-stopped
-    working_dir: /app
+    working_dir: /tmp/repo
     command: >
       sh -c "
-        cd /app &&
+        cd /tmp/repo &&
         npm install --omit=dev &&
-        mkdir -p /app/public/images &&
-        node /app/src/index.js
+        mkdir -p /tmp/repo/public/images &&
+        node /tmp/repo/src/index.js
       "
     volumes:
-      - ./:/app
-      - /app/node_modules
-      - wrestling_photos_data:/app/public
+      - wrestling_photos_data:/tmp/repo/public
     ports:
       - "3000:3000"
     environment:
