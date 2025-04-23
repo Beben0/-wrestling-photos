@@ -2,15 +2,21 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
+# Copier l'application
+COPY . /app/
 
-RUN npm install --production
+# Installer les dépendances
+RUN npm install --omit=dev
 
-COPY . .
+# Créer le répertoire pour les images
+RUN mkdir -p /app/public/images
 
+# Exposer le port
+EXPOSE 3000
+
+# Variables d'environnement
 ENV NODE_ENV=production
 ENV PORT=3000
 
-EXPOSE 3000
-
-CMD ["node", "src/index.js"] 
+# Commande de démarrage
+CMD ["node", "/app/src/index.js"] 
