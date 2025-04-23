@@ -2,10 +2,30 @@ version: "3"
 
 services:
   wrestling-photos:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:18-alpine
     restart: unless-stopped
+    command: >
+      sh -c "
+        echo 'Cleaning up...' &&
+        rm -rf /app/* &&
+        echo 'Listing /tmp/repo contents:' &&
+        ls -la /tmp/repo &&
+        echo 'Listing /tmp/repo/src contents:' &&
+        ls -la /tmp/repo/src || echo 'No src directory' &&
+        echo 'Copying files...' &&
+        cp -rv /tmp/repo/src /app/ &&
+        cp -rv /tmp/repo/package.json /app/ &&
+        mkdir -p /app/public/images &&
+        echo 'Installing dependencies...' &&
+        cd /app &&
+        npm install --omit=dev &&
+        echo 'Current app directory:' &&
+        ls -la /app &&
+        echo 'Current src directory:' &&
+        ls -la /app/src &&
+        echo 'Starting app...' &&
+        cd /app && node src/index.js
+      "
     volumes:
       - wrestling_photos_data:/app/public
     ports:
