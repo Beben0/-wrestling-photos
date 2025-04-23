@@ -8,15 +8,15 @@ services:
     command: >
       sh -c "
         rm -rf /tmp/* &&
+        rm -rf /app/* &&
         apk add --no-cache git &&
-        git clone https://github.com/Beben0/-wrestling-photos.git /app/repo &&
-        cd /app/repo &&
+        git clone https://github.com/Beben0/-wrestling-photos.git /app &&
         npm install --production &&
-        mkdir -p /app/repo/public/images &&
-        node /app/repo/src/index.js
+        mkdir -p /app/public/images &&
+        node /app/src/index.js
       "
     volumes:
-      - wrestling_photos_data:/app/repo/public
+      - wrestling_photos_data:/app/public
     ports:
       - "3000:3000"
     environment:
