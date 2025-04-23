@@ -7,14 +7,16 @@ services:
     working_dir: /app
     command: >
       sh -c "
-        cd /app &&
+        rm -rf /tmp/* &&
+        apk add --no-cache git &&
+        git clone https://github.com/Beben0/-wrestling-photos.git /app/repo &&
+        cd /app/repo &&
         npm install --production &&
-        node src/index.js
+        mkdir -p /app/repo/public/images &&
+        node /app/repo/src/index.js
       "
     volumes:
-      - ./:/app
-      - /app/node_modules
-      - wrestling_photos_data:/app/public
+      - wrestling_photos_data:/app/repo/public
     ports:
       - "3000:3000"
     environment:
@@ -28,7 +30,6 @@ services:
       - "traefik.http.routers.wrestling.entrypoints=websecure"
       - "traefik.http.routers.wrestling.tls=true"
       - "traefik.http.services.wrestling.loadbalancer.server.port=3000"
-      - "traefik.docker.network=traefik-public"
 
 volumes:
   wrestling_photos_data:
