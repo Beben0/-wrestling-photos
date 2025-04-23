@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  wrestling-photos:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - traefik_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wrestling.rule=Host(`catch.beben0.com`)"
+      - "traefik.http.routers.wrestling.entrypoints=websecure"
+      - "traefik.http.routers.wrestling.tls=true"
+      - "traefik.http.services.wrestling.loadbalancer.server.port=3000"
+
+networks:
+  traefik_network:
+    external: true
+    name: runtipi_tipi-network
