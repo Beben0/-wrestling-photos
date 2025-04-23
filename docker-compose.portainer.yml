@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  wrestling-photos:
+    image: node:18-alpine
+    restart: unless-stopped
+    working_dir: /tmp/repo
+    command: >
+      sh -c "
+        cd /tmp/repo &&
+        npm install --omit=dev &&
+        mkdir -p /tmp/repo/public/images &&
+        node /tmp/repo/src/index.js
+      "
+    volumes:
+      - wrestling_photos_data:/tmp/repo/public
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wrestling.rule=Host(`catch.beben0.com`)"
+      - "traefik.http.routers.wrestling.entrypoints=websecure"
+      - "traefik.http.routers.wrestling.tls=true"
+      - "traefik.http.services.wrestling.loadbalancer.server.port=3000"
+
+volumes:
+  wrestling_photos_data:
+
+networks:
+  traefik-public:
+    external: true
