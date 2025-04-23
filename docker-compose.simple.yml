@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  wrestling-photos:
+    image: node:18-alpine
+    restart: unless-stopped
+    working_dir: /app
+    command: >
+      sh -c "
+        rm -rf /tmp/* &&
+        apk add --no-cache git &&
+        git clone https://github.com/Beben0/-wrestling-photos.git /app/repo &&
+        cd /app/repo &&
+        npm install --production &&
+        mkdir -p /app/repo/public/images &&
+        node /app/repo/src/index.js
+      "
+    volumes:
+      - wrestling_photos_data:/app/repo/public
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    networks:
+      - traefik-public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wrestling.rule=Host(`catch.beben0.com`)"
+      - "traefik.http.routers.wrestling.entrypoints=websecure"
+      - "traefik.http.routers.wrestling.tls=true"
+      - "traefik.http.services.wrestling.loadbalancer.server.port=3000"
+
+volumes:
+  wrestling_photos_data:
+
+networks:
+  traefik-public:
+    external: true
