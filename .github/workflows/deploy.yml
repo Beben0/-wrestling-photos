@@ -3,6 +3,7 @@ name: Déployer sur GitHub Pages
 on:
   push:
     branches:
+      - main
       - claude/create-minesweeper-site-011CUMrZiM3ME6VcaBHNThT9
 
 permissions:
