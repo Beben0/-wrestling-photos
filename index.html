@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démineur - Minesweeper</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Démineur</h1>
+            <p class="subtitle">Trouvez toutes les cases sans mine!</p>
+        </header>
+
+        <div class="game-info">
+            <div class="info-item">
+                <span class="label">Mines:</span>
+                <span id="mine-count" class="value">10</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Temps:</span>
+                <span id="timer" class="value">0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Drapeaux:</span>
+                <span id="flag-count" class="value">0</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="difficulty-buttons">
+                <button class="btn btn-easy" onclick="startGame('easy')">Facile (8x8)</button>
+                <button class="btn btn-medium active" onclick="startGame('medium')">Moyen (12x12)</button>
+                <button class="btn btn-hard" onclick="startGame('hard')">Difficile (16x16)</button>
+            </div>
+            <button class="btn btn-restart" onclick="restartGame()">🔄 Recommencer</button>
+        </div>
+
+        <div id="game-board"></div>
+
+        <div id="game-message" class="game-message hidden">
+            <div class="message-content">
+                <h2 id="message-title"></h2>
+                <p id="message-text"></p>
+                <button class="btn btn-primary" onclick="restartGame()">Rejouer</button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>Comment jouer</h3>
+            <ul>
+                <li><strong>Clic gauche:</strong> Révéler une case</li>
+                <li><strong>Clic droit:</strong> Placer/retirer un drapeau</li>
+                <li><strong>But:</strong> Révéler toutes les cases sans mines</li>
+                <li><strong>Nombres:</strong> Indiquent le nombre de mines adjacentes</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Créé avec ❤️ par Claude</p>
+        </footer>
+    </div>
+
+    <script src="minesweeper.js"></script>
+</body>
+</html>
